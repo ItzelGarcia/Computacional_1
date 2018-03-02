@@ -1,0 +1,20 @@
+123123456
+
+##		CONVERTIR VARIAS FILAS EN UNA SOLA			##
+
+#Tengo tres filas, pero las quiero acomodadas como columnas, para poder hacerlo usando comando de emcas:
+
+#Selecciono la penúltima fila y hago ctrl [barra espaciadora] para hacer mark set. Con eso me voy para abajo, lo que hace que la marca seleccione todo el espacio vacío.
+
+#ctrl+w borró todo ese espacio, y la fila que estaba abajo ahora está a un lado de la otra. Como ya lo hicimos una vez, vamos hasta arriba del documento para que lo haga con todos los demás, jalandolos todos
+al inicio y mostrándolos como columnas.
+
+## 	    ELIMINAR PALABRAS INNECESARIAS			##
+
+#Con eso nos vamos al inicio del archivo con esc < y selecciono esc+%.#Escribo ctrl+y, enter dos veces, signo de exclamación.
+
+#En la carpeta df2017CAPE_PW.csv tenemos que hacer esto, pero tiene palabras extras que no necesitamos. Para quitar esas palabras y quedarnos con solo lo que necesitamos:
+
+#esc <, ctrl [spacebar], seleccionamos todo hasta antes del 00Z, ya que ese es el valor que ocupamos. Ctrl+w, ctrl+y (asegura que lo tenemos en el junk), esc <,  esc+%, ctrl+y, enter, enter, !.
+
+#Repetimos lo mismo con el resto de las palabras que tenemos ahí, hasta que nos queden los números. Cuando estén solo los números los movemos todos a una sola fila siguiendo los pasos de arriba.
