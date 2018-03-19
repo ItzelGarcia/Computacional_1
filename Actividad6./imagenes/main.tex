@@ -1,0 +1,233 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{wrapfig}
+\usepackage[top=1in, bottom=1.25in, left=1.1in, right=1.1in]{geometry}
+
+\title{Reporte - Actividad 6: Sistema de Resortes Acoplados}
+\author{García Monge Itzel Alexia}
+\date{19 de Marzo, 2018}
+
+\begin{document}
+\maketitle
+\section{Introducción}
+El siguiente reporte se centra en encontrar la solución de un sistema de dos resortes acoplados, siendo su solución un sistema de ecuaciones lineales de cuarto orden. Se utilizó la herramienta $Jupyter Lab$ para programar con $Python$ y lograr conseguir el valor de las ecuaciones recurriendo a métodos numéricos y graficando el resultado, seleccionando un cierto número de puntos para afinar el valor obtenido. Se comparó la solución analítica conocida y el valor aproximado de $Python$, obteniendo su error y, nuevamente, graficarlo.
+
+\section{Síntesis}
+\subsection{Introducción}
+En los últimos años, la elaboración de programas que resuelven sistemas algebraicos con algoritmos numéricos de gran potencia y con la capacidad de crear gráficas fácilmente ha ayudado a crear un nuevo estándar en la búsqueda de soluciones de ecuaciones lineales, especialmente creando un enfoque en las soluciones no lineales.
+
+Este artículo se centra en el clásico ejemplo de dos resortes con pesos atados en serie colgando a una altura específica. Asumiendo que se comportan acorde a las leyes de Hooke podemos modelar el problemas con un par de ecuaciones diferenciales lineales de segundo orden. Al diferenciar y sustituir una ecuación de la otra obtenemos que el movimiento de cada masa puede determinarse por una ecuación diferencial lineal de cuarto orden.
+
+En una ecuación diferencial de cuarto orden podemos investigar cuándo los movimientos de las dos masas se encuentran en fase o desfase. Si variamos la constante de resorte o agregamos un factor--aunque sea mínimo--no lineal, los movimientos oscilatorios producidos actúan de una manera muy distinta a la del modelo clásico de un resorte. 
+
+\subsection{Sistema de dos Resortes}
+El modelo de dos resortes y dos masas consiste en tener un resorte con una constante de $k_1$ atado a un techo con una masa $m_1$ colgando de ella. A esta masa se le agrega un segundo resorte con constante $k_2$, colgando una masa $m_2$ bajo todo el sistema. Cuando el sistema se encuentra en equilibrio, medimos la distancia del centro de masa $m_1$ y $m_2$ hasta el equilibrio. Denominamos a las distancias $x_1$ y $x_2$, obteniendo un modelo como el que se observa en la figura siguiente.
+
+	\begin{figure}
+    \centering
+    \includegraphics[height=7cm]{2spring.png}
+    \caption{Dos resortes acoplados}
+    \end{figure}
+
+\subsubsection{Asumiendo la Ley de Hooke}
+Si asumimos que existen pequeñas oscilaciones, las fuerzas restauradoras serían de la forma $-k_1l_1$ y $-k_2l_2$ donde $l_1$ y $l_2$ son la elongación o compresión de los resortes. 
+
+Al estar $m_1$ conectada a los dos resortes, se tienen dos fuerzas restauradoras actuando sobre ella. Una fuerza ascendente $-k_1x_1$ ejercida por $x_1$ del primer resorte; otra fuerza ascendente $-k_2(x_2-x_1)$  ejercida de la resistencia del segundo resorte a ser comprimido o elongado por $x_2 - x_1$. Mientras que $m_2$ solo es afectada por la fuerza restauradora del segundo resorte. Al asumir que no hay fricción y usando las Leyes de Newton obtenemos un sistema de ecuaciones lineales de segundo orden de la forma
+
+	\begin{center}
+    \includegraphics[height=2cm]{ec2_1.png}
+    \end{center}
+
+\subsubsection{Algunos Ejemplos con Masas Idénticas}
+Para encontrar la ecuación de $x_1$ que no involucré a $x_2$, resolvemos la primera ecuación de $x_2$, despejándola para después sustituirla en la segunda ecuación diferencial. Simplificando la ecuación obtenemos 
+
+	\begin{center}
+    \includegraphics[height=1cm]{ec2_3.png}
+    \end{center}
+
+Repetimos el mismo procedimiento para encontrar $x_2$ y obtenemos la ecuación
+
+	\begin{center}
+    \includegraphics[height=1cm]{ec2_5.png}
+    \end{center}
+
+En ambos casos se tiene una ecuación diferencial de cuarto orden muy parecidas entre si en el movimiento de la primera masa. Es decir, los movimientos de cada masa obedecen la misma ecuación diferencial, y son solo las posiciones y velocidades iniciales las necesarias para determinar cualquier caso específico.
+
+Si consideramos que $m_1=m_2$, asumiendo que no hay fricción ni fuerzas externas, nuestra ecuación diferencial se reduce a
+
+	\begin{center}
+    \includegraphics[height=1cm]{ec2_7.png}
+    \end{center}
+
+\textbf{\textit{Ejemplo 2.1}} 
+\textit{Describe el movimiento para resortes constantes $k_1=6$ y $k_2=4$ con una condición inicial ($x_1$(0), $\dot{x}_1$(0), $x_2$(0), $\dot{x}_2$(0))=(1,0,2,0)}
+
+Resolviendo de manera analítica, obtenemos una solución única para $x_1$ y $x_2$ que dependen de $t$:
+
+\begin{center}
+$x_1$(t)=cos$\sqrt[]{2}$t
+\end{center}
+
+\begin{center}
+$x_2$(t)=2cos$\sqrt[]{2}$t
+\end{center}
+
+El movimiento que se tiene es uno sincronizado, es decir, los sistemas están en fase--se tiene el mismo periodo de movimiento pero se cuentan con diferentes amplitudes. Como el movimiento en una movimiento periódico simple, las fases de $x_1$ y $x_2$ forman elipses.
+
+Al contar con los valores de ambas masas y constantes de resorte tenemos lo necesario para graficar el movimiento utilizando $Python$. Los demás ejemplos se graficarán de la misma forma, únicamente variando los valores de $m$, $k$ y $b$ proporcionados en el segundo segmento de código.
+
+	\begin{center}
+    \includegraphics[height=6cm]{vecfield.png}
+    \end{center}
+    
+    \begin{center}
+    \includegraphics[height=10cm]{point21.png}
+    \end{center}   
+    
+    \begin{center}
+    \includegraphics[height=7cm]{graf21.png}
+    \end{center}
+    
+Obteniendo gráficas de la forma:
+
+\begin{center}
+\includegraphics[height=5cm]{Ejemplo2_1_pt1.png}
+\includegraphics[height=5cm]{ejemplo2_1_p2.png}
+\includegraphics[height=5cm]{Ejemplo2_1_pt3.png}
+\end{center}
+
+\textbf{\textit{Ejemplo2.2}}
+\textit{Describe el movimiento para la constante de los resortes $k_1$=6, $k_2$=4 con condiciones iniciales ($x_1$(0), $\dot{x}_1$(0), $x_2$(0), $\dot{x}_2$(0))=(-2,0,1,0)}
+
+Resolvemos nuevamente de manera analítica y obtenemos una solución única para $x_1$ y $x_2$ que dependen de $t$:
+
+\begin{center}
+$x_1$(t)=-2cos2$\sqrt[]{3}$t
+\end{center}
+
+\begin{center}
+$x_2$(t)=cos2$\sqrt[]{3}$t
+\end{center}
+
+Cuando $m_1$ se mueve de manera descendente, $m_2$ lo hace de manera ascendente y vice-versa. Nuevamente ambos movimientos tienen el mismo periodo, pero ahora se encuentran 180$^\circ$ fuera de fase. 
+
+Para graficar los valores encontrados modificamos el segundo segmento de código mostrado en el ejemplo anterior
+
+    \begin{center}
+    \includegraphics[height=10cm]{point22.png}
+    \end{center} 
+
+Se terminan obteniendo las siguientes gráficas:
+
+\begin{center}
+\includegraphics[height=5cm]{ejemplo2_2_p1.png}
+\includegraphics[height=5cm]{ejemplo2_2_p2.png}
+\end{center}
+
+\textbf{\textit{Ejemplo 2.3}}
+\textit{Describe el movimiento para la constante de los resortes $k_1$=0.4, $k_2$=1.808 con condiciones iniciales ($x_1$(0), $\dot{x}_1$(0), $x_2$(0), $\dot{x}_2$(0))=(1/2,0,-1/2,7/10)}
+
+En este ejemplo se muestra como las condiciones iniciales afectan solamente a la amplitud y fase de las soluciones. Son los valores otorgados en las constantes de resorte $k_1$ y $k_2$ las que determinan el periodo y, por ende, la frecuencia de respuesta. Sus gráficas de fase tienen casi un movimiento periódico entre ellos, y al graficar $x_1$ contra $x_2$ obtenemos una curva tipo Lissajous.
+
+Aunque no se cuente con una respuesta analítica, aún se cuentan con las condiciones iniciales para el código.
+
+    \begin{center}
+    \includegraphics[height=10cm]{point23.png}
+    \end{center} 
+
+Las gráficas resultantes son
+
+\begin{center}
+\includegraphics[height=5cm]{ejemplo2_3_p1.png}
+\includegraphics[height=5cm]{ejemplo2_3_pt2.png}
+\includegraphics[height=5cm]{ejemplo2_3_pt3.png}
+\includegraphics[height=5cm]{ejemplo2_3_pt4.png}
+\includegraphics[height=5cm]{ejemplo2_3_pt5.png}
+\includegraphics[height=5cm]{ejemplo2_3_pt6.png}
+\end{center}
+
+\subsubsection{Amortiguamiento}
+El problema de amortiguamiento más encontrado es el de amortiguamiento viscoso, en donde el amortiguamiento es proporcional a su velocidad. El amortiguamiento en $m_1$ depende solamente en su velocidad, no en la velocidad de $m_2$ y vice-versa. 
+
+Agregamos el amortiguamiento viscoso como $\delta$ al modelo que hemos construido  asumiendo que $\delta$$_1$ y $\delta$$_2$ son valores pequeños. Esto transforma nuestras ecuaciones iniciales en
+
+\begin{center}
+\includegraphics[height=2cm]{ec2_16.png}
+\end{center}
+
+Volvemos a realizar el procedimiento inicial, despejando $x_2$ de la primera ecuación y sustituyéndola en la segunda para conseguir una ecuación con $x_1$ que no dependa de $x_2$ y repetimos el proceso con $x_1$. El resultado que obtenemos es la misma ecuación diferencial lineal representando el movimiento de dos masas, consiguiendo movimientos de oscilaciones amortiguadas bajo simples suposiciones en los parámetros. 
+
+\textbf{\textit{Ejemplo 2.4}}
+\textit{Asume que $m_1$=$m_2$=1. Describe el movimiento para la constante de los resortes $k_1$=0.4, $k_2$=1.808, coeficientes de amortiguamiento $\delta$$_1$=0.1 y $\delta$$_2$ con condiciones iniciales ($x_1$(0), $\dot{x}_1$(0), $x_2$(0), $\dot{x}_2$(0))=(1,1/2,2,1/2)}
+
+En el retrato de fase para $x_1$ y $x_2$ se puede observar un patrón de movimiento con amplitud decreciendo. El movimiento del amortiguamiento oscilatorio es evidente al graficar  $x_1$ y $x_2$, mientras que al graficar ambas posiciones contra el tiempo encontramos movimientos casi sincronizados, por último, $x_1$ contra $x_2$ encontramos un movimiento de oscilación amortiguada de ambas masas. 
+
+Los cambios que sufrió el segundo segmento de código para graficar estos casos se aprecian a continuación.
+
+\begin{center}
+\includegraphics[height=10cm]{point24.png}
+\end{center}
+
+Las gráficas resultantes fueron:
+
+\begin{center}
+\includegraphics[height=5cm]{ejemplo2_4_pt1.png}
+\includegraphics[height=5cm]{ejemplo2_4_pt2.png}
+\includegraphics[height=5cm]{ejemplo2_4_pt3.png}
+\includegraphics[height=5cm]{ejemplo2_4_pt4.png}
+\end{center}
+
+
+\section{Errores Relativos}
+Al utilizar $Python$ para resolver sistemas de ecuaciones lineales, estamos recurriendo a métodos numéricos para encontrar el resultado. Al recurrir a métodos numéricos estamos sometiendo nuestro resultado a cierto error, pues estamos aproximando y no obteniendo el valor real como se lograría de manera analítica. Dependiendo del número de particiones que llevemos a cabo podemos acercarnos al valor real reduciendo el valor del error a uno casi insignificante.
+
+Para los ejemplos \textit{Ejemplo 2.1} y \textit{Ejemplo 2.2} podemos encontrar el error relativo del resultado analítico restando el resultado numérico creado en $Python$ y graficarlo dependiente del tiempo. Como en  el \textit{Ejemplo 2.3} y \textit{Ejemplo 2.4} no tenemos el resultado analítico, no podemos conseguir el error relativo.
+
+Las gráficas del error relativo en el \textit{Ejemplo 2.1} al tener 250 particiones fueron:
+
+\begin{center}
+\includegraphics[height=5cm]{error2_1_pt1.png}
+\includegraphics[height=5cm]{error2_2_pt2.png}
+\end{center}
+
+Mientras que las gráficas del error relativo en el \textit{Ejemplo 2.2} al tener 1250 particiones fueron:
+
+\begin{center}
+\includegraphics[height=5cm]{error2_2_pt1.png}
+\includegraphics[height=5cm]{error2_1_pt2.png}
+\end{center}
+
+En ambos casos se observan errores pequeños, obteniendo en las primeras dos gráficas un error del orden de $\times$10$^{-4}$, mientras que se obtuvo en las últimas dos un error del orden de $\times$10$^{-2}$. 
+
+\section{Conclusión}
+Al utilizar herramientas como $Jupyer Lab$, el manejo de código que realiza operaciones tan potentes como lo son las soluciones de ecuaciones diferenciales de cuarto orden se vuelven más accesibles para el público, facilitando su manejo. Podemos encontrar soluciones de ecuaciones lineales de cualquier grado al tomar como variables sus condiciones iniciales como la fricción, amortiguamiento, masa y constantes de resorte. Los resultados que se obtienen son siempre en base a métodos numéricos, por lo cual se debe de tener en consideración que dependiendo del número de puntos o particiones que se le designe al código se estará más cerca al valor real y, por lo tanto, se tendrá un error pequeño.  
+
+\section{Bibliografía}
+\begin{itemize}
+\item Temple H. Fay, Sarah Duncan Graham (2003) Coupled Spring Equations. Int. J. Educ. Math. Sci. Tech.. Vol. 34, No. 1, pp. 65-79.
+
+\item SciPy Cookbook. Retrieved March 18, 2018.
+
+$http://scipy-cookbook.readthedocs.io/items/CoupledSpringMassSystem.html$
+\end{itemize}
+
+
+\section{Apéndice}
+\begin{enumerate}
+\item \textbf{¿En general te pareció interesante esta actividad de modelación matemática? ¿Qué te gustó mas? ¿Qué no te gustó?} Me gustó el hecho de que pudimos adentrarnos a un uso más complejo para Pyhton, así como descubrir la forma de obtener errores relativos. No me gustó el hecho que la mayoría del código ya estaba hecho y sólo lo tuvimos que modificar nosotros, me hubiera gustado haberlo creado yo.
+
+\item \textbf{La cantidad de material te pareció ¿bien?, ¿suficiente?, ¿demasiado?} La cantidad de material me pareció suficiente, si hubiera más hubiera creado demasiados enredos, siento que fue lo suficiente para mantenerme atenta sin confundirme.
+
+\item \textbf{¿Cuál es tu primera impresión de Jupyter Lab?} Una mejora a Jupyter Notebook, siendo este mucho más cómodo de manejar al contar con más herramientas. El único inconveniente que le puedo encontrar es que no cuenta con la opción de reiniciar todas las celdas. 
+
+\item \textbf{Respecto al uso de funciones de SciPy, ¿ya habías visto integración numérica en tus cursos anteriores? ¿Cuál es tu experiencia?} Sí, lo realizamos en el curso de Fortran brevemente y trabajamos con un parcial durante la materia de Análisis Numérico.
+
+\item \textbf{El tema de sistema de masas acopladas con resortes, ¿ya lo habías resuelto en tu curso de Mecánica 2?}Sí lo vimos, pero no lo profundizamos mucho.
+
+\item \textbf{¿Qué le quitarías o agregarías a esta actividad para hacerla más interesante y divertida?} Le agregaría una semana en la que nos concentráramos a crear el código nosotros mismos sin recurrir a códigos ya existentes en el Internet.
+
+\end{enumerate}
+\end{document}
